@@ -1,0 +1,87 @@
+﻿@model IEnumerable<real_state.Models.Buyer_details>
+@{
+    ViewData["Title"] = "Search";
+}
+
+<div class="site-section site-section-sm pb-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="view-options bg-white py-3 px-3 d-md-flex align-items-center">
+                    <div class="mr-auto">
+                        <a href="index.html" class="icon-view view-module active"><span class="icon-view_module"></span></a>
+                        <a href="view-list.html" class="icon-view view-list"><span class="icon-view_list"></span></a>
+
+                    </div>
+                    <div class="ml-auto d-flex align-items-center">
+                        <div>
+                            <a href="#" class="view-list px-3 border-right active">All</a>
+                            <a href="#" class="view-list px-3 border-right">Rent</a>
+                            <a href="#" class="view-list px-3">Sale</a>
+                        </div>
+                        <div class="select-wrap">
+                            <span class="icon icon-arrow_drop_down"></span>
+                            <select class="form-control form-control-sm d-block rounded-0">
+                                <option value="">Sort by</option>
+                                <option value="">Price Ascending</option>
+                                <option value="">Price Descending</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section site-section-sm bg-light">
+    <div class="container">
+
+        <div class="row mb-5">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+
+                    <div class="property-entry h-100">
+                        <a href="property-details.html" class="property-thumbnail">
+                            <div class="offer-type-wrap">
+                                <span class="offer-type bg-danger">Sale</span>
+                                @*<span class="offer-type bg-success">Rent</span>*@
+                            </div>
+                            <img src="images/img_1.jpg" alt="Image" class="img-fluid">
+                        </a>
+                        <div class="p-4 property-body">
+                            <a href="#" class="property-favorite"><span class="icon-heart-o"></span></a>
+                            <h2 class="property-title"><a href="property-details.html">@item.Address</a></h2>
+                            <span class="property-location d-block mb-3">
+                                <span class="property-icon icon-room"></span>@item.Address @item.Address @item.City @item.STATE,@item.Country
+                                @item.Zip_code
+                            </span>
+                            <strong class="property-price text-primary mb-3 d-block text-success">$@item.Estimated_Value</strong>
+                            <ul class="property-specs-wrap mb-3 mb-lg-0">
+                                <li>
+                                    <span class="property-specs">Beds</span>
+                                    <span class="property-specs-number">@item.Beds </span>
+
+                                </li>
+                                <li>
+                                    <span class="property-specs">Baths</span>
+                                    <span class="property-specs-number">@item.Baths</span>
+
+                                </li>
+                                <li>
+                                    <span class="property-specs">SQ FT</span>
+                                    <span class="property-specs-number">@item.SqFt</span>
+
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

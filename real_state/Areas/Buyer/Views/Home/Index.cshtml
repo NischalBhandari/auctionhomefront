@@ -1,0 +1,224 @@
+﻿@model IEnumerable<real_state.Models.Buyer_details>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+@section Scripts {
+    <script type="text/javascript">
+
+
+      
+            //alert('sagar')
+            $("#ranges").slider({
+                step: 1,
+                range: true,
+                min: 120,
+                max: 850,
+                values: [120, 850],
+                slide: function (event, ui) {
+                    var minsft = ui.values[0];
+                    var maxsft = ui.values[1];
+
+                    $("#amount").val(ui.values[0] + "sqft -" + ui.values[1] + "sqft");
+                     getsqft(minsft, maxsft);
+                }
+               
+            });
+          $("#amount").val($("#ranges").slider("values", 0) +
+            "sqft - " + $("#ranges").slider("values", 1) + "sqft");
+           
+function getsqft(minsqft,maxsqft) {
+
+    $.ajax({
+        type:"Get",
+        url:'@Url.Action("Search","Home", new {area ="Buyer" })',
+        data: {
+            minsqft:minsqft,
+            maxsqft:maxsqft
+        }
+    })
+    
+        }
+
+
+        $("#priceslide").slider({
+            step: 1,
+            range: true,
+            min: 0,
+            max: 5,
+            values: [0, 5],
+            slide: function (event, ui) {
+                var minamounts=ui.values[0];
+                    var maxamounts = ui.values[1];
+
+                $("#price").val(ui.values[0] + "$ -" + ui.values[1] + "$");
+                getamt(minamounts, maxamounts);
+            }
+        });
+        $("#price").val($("#priceslide").slider("values", 0) +
+            "$ - " + $("#priceslide").slider("values", 1) + "$");
+
+
+    function getamt(minamount, maxamount) {
+          //  debugger;
+    //var data = $('#serach').serialize();
+    $.ajax({
+        type: "Get",
+        url:'@Url.Action("Search","Home",new {area ="Buyer" })',
+        data: {
+            minamount:minamount,
+            maxamount:maxamount
+        }
+
+    })
+
+        }
+       
+    </script>
+}
+
+
+<div class="site-section site-section-sm pb-0">
+    <div class="container">
+        <div class="row">
+            <form class="form-search col-md-12" id="serach" method="get" asp-action="Search"asp-controller="Home" style="margin-top: -100px;">
+                <div class="row  align-items-end">
+                    <div class="col-md-3">
+                        <label for="list-types">Select Country</label>
+                        <div class="select-wrap">
+                            <span class="icon icon-arrow_drop_down"></span>
+                            @Html.DropDownList("Country", ViewBag.buyercountry as SelectList, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="offer-types">Select State</label>
+                        <div class="select-wrap">
+                            <span class="icon icon-arrow_drop_down"></span>
+                            @Html.DropDownList("STATE", ViewBag.buyerstate as SelectList, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="select-city">Select City</label>
+                        <div class="select-wrap">
+                            <span class="icon icon-arrow_drop_down"></span>
+                            @Html.DropDownList("City", ViewBag.buyercity as SelectList, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label for="select-city">Beds</label>
+                        <div class="select-wrap">
+                            <span class="icon icon-arrow_drop_down"></span>
+                            @Html.DropDownList("Beds", ViewBag.bed as SelectList, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="select-city">Baths</label>
+                        <div class="select-wrap">
+                            <span class="icon icon-arrow_drop_down"></span>
+                            @Html.DropDownList("baths", ViewBag.baths as SelectList, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="amount">Price range:</label>
+                        <div id="ranges"></div>
+                    
+                            <input type="text" id="amount" style="border: 0; color: #f6931f;line-height:0; " />
+                   
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="price">Amount:</label>
+                        <div id="priceslide"></div>
+                        <input type="text" id="price" style="border: 0; color: #f6931f;line-height:0; " />
+                    </div>
+                    <div class="col-md-3">
+
+                        <input type="submit" class="btn btn-success text-white btn-block rounded-0" value="Search">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="view-options bg-white py-3 px-3 d-md-flex align-items-center">
+                    <div class="mr-auto">
+                        <a asp-action="Index" asp-controller="Home" class="icon-view view-module active"><span class="icon-view_module"></span></a>
+                        <a href="view-list.html" class="icon-view view-list"><span class="icon-view_list"></span></a>
+
+                    </div>
+                    <div class="ml-auto d-flex align-items-center">
+                        <div>
+                            <a href="#" class="view-list px-3 border-right active">All</a>
+                            <a href="#" class="view-list px-3 border-right">Rent</a>
+                            <a href="#" class="view-list px-3">Sale</a>
+                        </div>
+                        <div class="select-wrap">
+                            <span class="icon icon-arrow_drop_down"></span>
+                            <select class="form-control form-control-sm d-block rounded-0">
+                                <option value="">Sort by</option>
+                                <option value="">Price Ascending</option>
+                                <option value="">Price Descending</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section site-section-sm bg-light">
+    <div class="container">
+
+        <div class="row mb-5">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+
+                    <div class="property-entry h-100">
+                        <a href="property-details.html" class="property-thumbnail">
+                            <div class="offer-type-wrap">
+                                <span class="offer-type bg-danger">Sale</span>
+                                @*<span class="offer-type bg-success">Rent</span>*@
+                            </div>
+                            <img src="images/img_1.jpg" alt="Image" class="img-fluid">
+                        </a>
+                        <div class="p-4 property-body">
+                            <a href="#" class="property-favorite"><span class="icon-heart-o"></span></a>
+                            <h2 class="property-title"><a href="property-details.html">@item.Address</a></h2>
+                            <span class="property-location d-block mb-3">
+                                <span class="property-icon icon-room"></span>@item.Address @item.Address @item.City @item.STATE,@item.Country
+                                @item.Zip_code
+                            </span>
+                            <strong class="property-price text-primary mb-3 d-block text-success">$@item.Estimated_Value</strong>
+                            <ul class="property-specs-wrap mb-3 mb-lg-0">
+                                <li>
+                                    <span class="property-specs">Beds</span>
+                                    <span class="property-specs-number">@item.Beds </span>
+
+                                </li>
+                                <li>
+                                    <span class="property-specs">Baths</span>
+                                    <span class="property-specs-number">@item.Baths</span>
+
+                                </li>
+                                <li>
+                                    <span class="property-specs">SQ FT</span>
+                                    <span class="property-specs-number">@item.SqFt</span>
+
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+    </div>
+
+
